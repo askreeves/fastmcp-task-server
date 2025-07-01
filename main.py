@@ -165,8 +165,13 @@ class TaskStorage:
         }
 
 
-# Initialize FastMCP server
-mcp = FastMCP("Task Manager Server")
+# Initialize FastMCP server with CORS configuration
+mcp = FastMCP(
+    name="Task Manager Server",
+    # Enable CORS for web clients
+    cors=True,
+    cors_origins=["*"],  # Allow all origins for development - restrict in production
+)
 
 # Global storage instance
 storage = TaskStorage()
@@ -390,7 +395,7 @@ if __name__ == "__main__":
     print("Available tools: create_task, get_task, update_task, delete_task, list_tasks, complete_task, get_task_stats, health_check")
     print("Available resources: task://{task_id}, tasks://all")
     print("Available prompts: task_planning_prompt")
+    print(f"CORS enabled for web clients")
     
-    # For Railway deployment, use SSE transport instead of stdio
-    # This enables HTTP-based communication suitable for web deployments
+    # For Railway deployment, use SSE transport with CORS enabled
     mcp.run(transport="sse", host="0.0.0.0", port=port)
