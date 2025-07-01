@@ -391,5 +391,6 @@ if __name__ == "__main__":
     print("Available resources: task://{task_id}, tasks://all")
     print("Available prompts: task_planning_prompt")
     
-    # For Railway, we need to bind to 0.0.0.0
-    mcp.run(host="0.0.0.0", port=port)
+    # For Railway deployment, use SSE transport instead of stdio
+    # This enables HTTP-based communication suitable for web deployments
+    mcp.run(transport="sse", host="0.0.0.0", port=port)
